@@ -25,7 +25,7 @@ public:
 		}
 		if (isDuplicatedNumber(guessNumber)) throw invalid_argument("Must not have same number");
 	}
-	void countStrikeOrBalls(const string& guessNumber) {
+	void countStrikeOrBall(const string& guessNumber) {
 		for (register int i = 0; i < 3; i++) {
 			auto idx = find(question.begin(), question.end(), guessNumber[i]);
 			if (idx - question.begin() == i) num_strikes++;
@@ -35,7 +35,7 @@ public:
 	GuessResult guess(const string& guessNumber) {
 		assertIllegalArgument(guessNumber);
 		if(guessNumber == question) return { true, 3, 0 };
-		countStrikeOrBalls(guessNumber);
+		countStrikeOrBall(guessNumber);
 		return { false, num_strikes, num_balls };
 	}
 private:
