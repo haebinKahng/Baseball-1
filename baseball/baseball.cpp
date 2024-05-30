@@ -1,4 +1,5 @@
 #include <stdexcept>
+#include <algorithm>
 using namespace std;
 
 struct GuessResult {
@@ -24,11 +25,21 @@ public:
 		}
 		if (isDuplicatedNumber(guessNumber)) throw invalid_argument("Must not have same number");
 	}
+	void countStrikeOrBalls(const string& guessNumber) {
+		for (register int i = 0; i < 3; i++) {
+			auto idx = find(question.begin(), question.end(), guessNumber[i]);
+			if (idx - question.begin() == i) num_strikes++;
+			else if (idx != question.end()) num_balls++;
+		}
+	}
 	GuessResult guess(const string& guessNumber) {
 		assertIllegalArgument(guessNumber);
 		if(guessNumber == question) return { true, 3, 0 };
-		return { false, 0, 0 };
+		countStrikeOrBalls(guessNumber);
+		return { false, num_strikes, num_balls };
 	}
 private:
 	string question;
+	int num_strikes = 0;
+	int num_balls = 0;
 };
